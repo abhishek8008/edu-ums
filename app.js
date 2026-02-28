@@ -44,6 +44,11 @@ const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',')
   : ['http://localhost:3000', 'http://localhost:5000'];
 
+// In production on Vercel, allow same-origin requests
+if (process.env.VERCEL) {
+  allowedOrigins.push(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '');
+}
+
 app.use(
   cors({
     origin: (origin, cb) => {
