@@ -1,0 +1,26 @@
+# ──────────────────────────────────────────────────────────
+# Render Blueprint — render.yaml
+# Docs: https://render.com/docs/blueprint-spec
+# Usage: Push to your repo, then "New → Blueprint" on Render
+# ──────────────────────────────────────────────────────────
+
+services:
+  - type: web
+    name: ums-api
+    runtime: node
+    region: oregon                        # or singapore, frankfurt, etc.
+    plan: free                            # free | starter | standard
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false                       # ← set manually in Render dashboard
+      - key: JWT_SECRET
+        generateValue: true               # Render auto-generates a random value
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: CORS_ORIGIN
+        sync: false                       # set to your Render URL after first deploy
